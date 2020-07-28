@@ -1,0 +1,85 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Ubuntu, sans-serif;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+body #calculator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+  box-shadow: 3px 3px 15px #B1B1B1;
+  background-color: #B1B1B1;
+}
+body #calculator header {
+  position: relative;
+  width: 260px;
+  height: 120px;
+}
+body #calculator header span {
+  position: absolute;
+  width: 100%;
+  opacity: 0.3;
+  cursor: default;
+}
+body #calculator header span#time {
+  top: 2px;
+  padding-left: 2px;
+}
+body #calculator header span#date {
+  top: 2px;
+  padding-right: 4px;
+  text-align: right;
+}
+body #calculator header span#memory {
+  bottom: 44px;
+  padding-right: 4px;
+  font-weight: 600;
+  text-align: right;
+}
+body #calculator header span#display {
+  bottom: 0;
+  padding-right: 4px;
+  opacity: 0.7;
+  text-align: right;
+  text-transform: uppercase;
+  font-size: 36px;
+  font-weight: 600;
+  cursor: text;
+}
+body #calculator section.container .row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body #calculator section.container .row button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+  font-size: 18px;
+  width: 65px;
+  height: 50px;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+}
+body #calculator section.container .row button.btn-number {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+body #calculator section.container .row button:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+/*# sourceMappingURL=style.css.map */
