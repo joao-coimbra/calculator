@@ -19,13 +19,13 @@ export class CalcController {
 
     initialize() {
 
+        this.displayCalc = 0;
+
         setInterval(() => {
 
             this.setDisplayDateTime();
 
         });
-
-        this.setLastNumberToDisplay();
 
     }
 
@@ -33,7 +33,7 @@ export class CalcController {
 
         this._operation = [];
 
-        this.setLastNumberToDisplay();
+        this.displayCalc = 0;
 
     }
 
@@ -41,7 +41,7 @@ export class CalcController {
 
         this._operation.pop();
 
-        this.setLastNumberToDisplay();
+        this.displayCalc = 0;
 
     }
 
@@ -77,60 +77,21 @@ export class CalcController {
 
     calc() {
 
-        let lastOperator = this._operation[1];
-
         if (this._operation.length > 3) {
 
             let last = this._operation.pop();
 
             let result = eval(this._operation.join(''));
 
-            if (last == '%') {
-
-                switch (lastOperator) {
-                    case '+':
-                        result = this._operation[0] + this._operation[0] * this._operation[2] / 100;
-                        break;
-                    case '-':
-                        result = this._operation[0] - this._operation[0] * this._operation[2] / 100;
-                        break;
-                    case '/':
-                        result *= 100;
-                        break;
-                    case '*':
-                        result /= 100;
-                        break;
-                    
-                    default:
-                        this.setError();
-                        break;
-                    }
-
-                this._operation = [roundedFloat(result, 5)];
-
-            } else { 
-
-                this._operation = [roundedFloat(result, 5), last];
-
-            }
+            this._operation = [result, last];
 
             this.setLastNumberToDisplay();
 
         } else {
 
-            let result;
+            let result = eval(this._operation.join(''));
 
-            if (lastOperator == '%') {
-
-                result = this._operation[0] * this._operation[2] / 100;
-
-            } else {
-
-                result = eval(this._operation.join(''));
-
-            }
-
-            this._operation = [roundedFloat(result, 5)];
+            this._operation = [result];
 
             this.setLastNumberToDisplay();
         
@@ -166,7 +127,7 @@ export class CalcController {
 
         }
 
-        this.updateCalculator(roundedFloat(last, 5));
+        this.updateCalculator(roundedFloat(last, 2));
 
     }
 
@@ -189,7 +150,7 @@ export class CalcController {
             last = 1 / last;
         }
 
-        this.updateCalculator(roundedFloat(last, 5));
+        this.updateCalculator(roundedFloat(last, 2));
 
     }
 
@@ -241,7 +202,7 @@ export class CalcController {
 
         }
 
-        this.updateCalculator(roundedFloat(last, 5));
+        this.updateCalculator(roundedFloat(last, 2));
 
     }
 
@@ -311,8 +272,6 @@ export class CalcController {
             }
 
         }
-
-        if (!lastNumber) lastNumber = 0;
 
         this.displayCalc = lastNumber;
 
