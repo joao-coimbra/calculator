@@ -25,7 +25,7 @@ export function roundedFloat(value, maxRounded) {
 
                 for (let j = n; j > rounded; j--) resultRounded.pop();
 
-                if (parseInt(lastNumber()) < 5) { resultRounded.pop() }
+                if (parseInt(lastNumber()) < maxRounded) { resultRounded.pop() }
                 else {	
                     resultRounded.pop();	
 
