@@ -10,35 +10,45 @@ export function addEventListenerAll(element, events, fn) {
 
 export function roundedFloat(value, maxRounded) {
 
-    let result;
-    let n;
+    let rounded = maxRounded + 1, resultRounded, n, x, h = 0;
 
     value = value.toString();
 
-    result = value.split('');
+    resultRounded = value.split('');
 
-    for (let i = result.length - 1; i >= 0; i--) {
+    for (let i = resultRounded.length - 1; i >= 0; i--) {
 
-        if (isPoint(result[i])) {
-            n = result.length - 1 - i;
+        if (isPoint(resultRounded[i])) {
+            n = resultRounded.length - 1 - i;
 
-            if (n > maxRounded) {
+            if (n > rounded) {
 
-                for (let j = n; j > maxRounded; j--) {
-                    result.pop();
-                }
+                for (let j = n; j > rounded; j--) resultRounded.pop();
 
-                for (let k = maxRounded; k > 0; k--) {
-                    if (result[result.length - 1] == "0") {
-                        result.pop();
-                    } else {
-                        break
+                if (parseInt(lastNumber()) < 5) { resultRounded.pop() }
+                else {	
+                    resultRounded.pop();	
+
+                    while (h < Infinity) { 	
+
+                        if(isPoint(lastNumber())) { x = 2 }	
+                        else { x = 1 }	
+
+                        if(resultRounded[resultRounded.length - x] == "9") { resultRounded.pop() }	
+                        else {	
+                            resultRounded[resultRounded.length - x] = parseInt(resultRounded[resultRounded.length - x]) + 1;	
+                            break;	
+                        }
+
                     }
+
                 }
 
-                if (isPoint(result[result.length - 1])) {
-                    result.pop();
+                for (let k = rounded; k > 0; k--) {
+                    if (lastNumber() == "0") resultRounded.pop();
                 }
+
+                if (isPoint(lastNumber())) resultRounded.pop();
 
             }
 
@@ -46,7 +56,7 @@ export function roundedFloat(value, maxRounded) {
 
     }
 
-    return result.join('');
+    return resultRounded.join('');
 
     // adjunct
     function isPoint(value) {
@@ -54,5 +64,9 @@ export function roundedFloat(value, maxRounded) {
         return (['.'].indexOf(value) > -1);
 
     }
+
+    function lastNumber() {	
+        return resultRounded[resultRounded.length - 1];	
+    }	
 
 }
