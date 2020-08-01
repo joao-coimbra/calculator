@@ -6,6 +6,7 @@ export class CalcController {
     constructor() {
 
         this._lastOperatorMemory = '';
+        this._arrayOfLastNumber = [];
         this._lastNumber = '';
         this._operation = [];
         this._lastOperator = [];
@@ -36,6 +37,7 @@ export class CalcController {
     clearAll(value) {
 
         this._operation = [];
+        this._arrayOfLastNumber = [];
 
         if (!value) {
             this.setLastNumberToDisplay();
@@ -48,6 +50,8 @@ export class CalcController {
     clearEntry() {
 
         this._operation.pop();
+        this._arrayOfLastNumber = [];
+
         this._lastOperator = [];
 
         this.setLastNumberToDisplay();
@@ -137,7 +141,7 @@ export class CalcController {
 
                     this.calc();
 
-                    this._operation = [this._lastNumber];
+                    this._operation = [roundedFloat(this._lastNumber, 5)];
 
                 } else {
 
@@ -636,6 +640,8 @@ export class CalcController {
 
                 this._lastOperator.push(txtBtn);
 
+                if (this.isOperator(this._lastOperator[this._lastOperator.length - 1])) this._arrayOfLastNumber = [];
+
                 if (this._lastOperator[this._lastOperator.length - 2] == "=") {
 
                     if (this._lastOperator[this._lastOperator.length - 1] == "=") {
@@ -658,19 +664,50 @@ export class CalcController {
 
     }
 
+    isPoint(value) {
+
+        return (['.'].indexOf(value) > -1);
+
+    }
+
+    aPointHere(value) {
+
+        for (let i = 0; i <= value.length; i++) {
+
+            if (this.isPoint(value[i])) {
+
+                return true;
+
+            }
+
+        }
+
+    }
+
     addPoint() {
 
         let lastOperation = this.getLastOperation();
 
-        if (this.isOperator(lastOperation) || !lastOperation) {
+        console.log("antes dos coiso " + this._arrayOfLastNumber);
 
-            this.pushOperation('0.');
+        if (!this.aPointHere(this._arrayOfLastNumber)) {
 
-        } else {
+            if (this.isOperator(lastOperation) || !lastOperation) {
 
-            this.setLastOperation(lastOperation.toString() + '.');
+                this.pushOperation('0.');
+
+            } else {
+
+                this.setLastOperation(lastOperation.toString() + '.');
+
+            }
 
         }
+
+        let lastNumberMemory = this._operation[0].toString();
+        this._arrayOfLastNumber = lastNumberMemory.split('');
+
+        console.log("depois dos coiso " + this._arrayOfLastNumber);
 
         this.setLastNumberToDisplay();
 
