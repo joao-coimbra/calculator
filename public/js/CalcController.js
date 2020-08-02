@@ -159,7 +159,7 @@ export class CalcController {
 
             if (this.isOperator(this.getLastElementArray(this._lastOperator))) {
 
-                if (this.isEqual(this.getLastElementArray(this._lastOperator))) {
+                if (this.isEqual(this.getLastElementArray(this._lastOperator, 2))) {
 
                     this._operation.push(this._lastOperatorMemory, this._lastDisplayCalc);
 
