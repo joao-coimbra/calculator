@@ -34,7 +34,7 @@ export function roundedFloat(value, maxRounded) {
                         if(isPoint(lastNumber())) { x = 2 }	
                         else { x = 1 }	
 
-                        if(resultRounded[resultRounded.length - x] == "9") { resultRounded.pop() }	
+                        if(resultRounded[resultRounded.length - x] == "9") { resultRounded.pop() }
                         else {	
                             resultRounded[resultRounded.length - x] = parseInt(resultRounded[resultRounded.length - x]) + 1;	
                             break;	
@@ -66,7 +66,9 @@ export function roundedFloat(value, maxRounded) {
     }
 
     function lastNumber() {	
-        return resultRounded[resultRounded.length - 1];	
-    }	
+
+        return resultRounded[resultRounded.length - 1];
+
+    }
 
 }
