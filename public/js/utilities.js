@@ -25,13 +25,13 @@ export function roundedFloat(value, maxRounded) {
 
                 for (let j = n; j > rounded; j--) resultRounded.pop();
 
-                if (parseInt(lastNumber()) < maxRounded) { resultRounded.pop() }
+                if (parseInt(lastNumberResult()) < maxRounded) { resultRounded.pop() }
                 else {	
                     resultRounded.pop();	
 
                     while (h < Infinity) { 	
 
-                        if(isPoint(lastNumber())) { x = 2 }	
+                        if(isPoint(lastNumberResult())) { x = 2 }	
                         else { x = 1 }	
 
                         if(resultRounded[resultRounded.length - x] == "9") { resultRounded.pop() }
@@ -45,10 +45,10 @@ export function roundedFloat(value, maxRounded) {
                 }
 
                 for (let k = rounded; k > 0; k--) {
-                    if (lastNumber() == "0") resultRounded.pop();
+                    if (lastNumberResult() == "0") resultRounded.pop();
                 }
 
-                if (isPoint(lastNumber())) resultRounded.pop();
+                if (isPoint(lastNumberResult())) resultRounded.pop();
 
             }
 
@@ -65,7 +65,7 @@ export function roundedFloat(value, maxRounded) {
 
     }
 
-    function lastNumber() {	
+    function lastNumberResult() {	
 
         return resultRounded[resultRounded.length - 1];
 

@@ -8,6 +8,7 @@ export class CalcController {
         this._lastOperatorMemory = '';
         this._arrayOfLastNumber = [];
         this._lastNumber = '';
+        this._initializeCalculator = true;
         this._operation = [];
         this._lastOperator = [];
         this._locale = navigator.language;
@@ -67,11 +68,16 @@ export class CalcController {
 
         this._lastOperator = [];
 
+        this._initializeCalculator = true;
+
     }
 
     clearEntry() {
 
         this._operation.pop();
+
+        if (this._operation.length == 1) this._initializeCalculator = true;
+
         this._arrayOfLastNumber = [];
 
         this._lastOperator = [];
@@ -161,26 +167,35 @@ export class CalcController {
 
                 if (this.isEqual(this.getLastElementArray(this._lastOperator, 2))) {
 
-                    this._operation.push(this._lastOperatorMemory, this._lastDisplayCalc);
+                    if (this.isOperator(this._lastOperatorMemory)) {
 
-                    this._lastNumber = this.getResult();
+                        this._operation.push(this._lastOperatorMemory, this._lastDisplayCalc);
 
-                    this.calc();
+                        this._lastNumber = this.getResult();
 
-                    this._operation = [roundedFloat(this._lastNumber, 5)];
+                        this.calc();
+
+                        this._operation = [roundedFloat(this._lastNumber, 5)];
+
+                    }
 
                 } else {
 
-                    this._lastDisplayCalc = this.displayCalc;
-                    this._lastOperatorMemory = this._operation[1];
+                    if (this._initializeCalculator == false) {
 
-                    this.pushOperation(this._lastDisplayCalc);
+                        this._lastDisplayCalc = this.displayCalc;
+                        this._lastOperatorMemory = this._operation[1];
 
-                    this._lastNumber = this.getResult();
+                        this.pushOperation(this._lastDisplayCalc);
 
-                    this.calc();
+                        this._lastNumber = this.getResult();
+
+                        this.calc();
+
+                    }
 
                 }
+
             }
 
         } else {
@@ -423,6 +438,11 @@ export class CalcController {
                 if (this.isOperator(value)) {
                     //change operator
                     this.setLastElementArray(this._operation, value);
+                    this._initializeCalculator = false;
+
+                } else if (this.isOtherOperation(value)) {
+
+                    this._initializeCalculator = false;
 
                 } else {
 
@@ -437,6 +457,11 @@ export class CalcController {
                 if(this.isOperator(value)) {
 
                     this.pushOperation(value);
+                    this._initializeCalculator = false;
+
+                } else if (this.isOtherOperation(value)) {
+
+                    this._initializeCalculator = false;
 
                 } else {
 
@@ -523,6 +548,9 @@ export class CalcController {
                 this.addPoint(',');
                 break;
             case 'invert':
+                if (bool) {
+                    this._initializeCalculator = true;
+                }
                 this.invertValue();
                 break;
 
@@ -541,7 +569,10 @@ export class CalcController {
             case '7':
             case '8':
             case '9':
-                if (bool) this.clearAll('=');
+                if (bool) {
+                    this.clearAll('=');
+                    this._initializeCalculator = true;
+                }
                 this.addOperation(parseInt(value));
                 break;
 
@@ -601,11 +632,20 @@ export class CalcController {
             case '7':
             case '8':
             case '9':
-                if (bool) this.clearAll('=');
+                if (bool) {
+                    this.clearAll('=');
+                    this._initializeCalculator = true;
+                }
                 this.addOperation(parseInt(value));
                 break;
 
         }
+
+    }
+
+    isOtherOperation(value) {
+
+        return (['√', 'x²', '¹/x'].indexOf(value) > -1);
 
     }
 
