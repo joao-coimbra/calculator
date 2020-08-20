@@ -163,13 +163,9 @@ export class CalcController {
 
         } else if (this._operation.length <= 2) {
 
-            console.log("I go back", this._lastOperator, this._lastOperatorMemory, this._lastDisplayCalc)
-
             if (this.isOperator(this.getLastElementArray(this._lastOperator))) {
 
                 if (this.isEqual(this.getLastElementArray(this._lastOperator, 2))) {
-
-                    console.log("can too", this._lastOperatorMemory, this._lastDisplayCalc)
 
                     if (this.isOperator(this._lastOperatorMemory)) {
 
@@ -184,8 +180,6 @@ export class CalcController {
                     }
 
                 } else {
-
-                    console.log("can too come back", this._lastOperatorMemory, this._lastDisplayCalc)
 
                     if (this._initializeCalculator == false) {
 
@@ -202,7 +196,6 @@ export class CalcController {
 
                 }
 
-                console.log(this._lastOperatorMemory, this._lastDisplayCalc)
             }
 
         } else {
