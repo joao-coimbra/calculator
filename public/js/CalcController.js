@@ -1,10 +1,11 @@
-import { addEventListenerAll } from './utilities.js';
-import { roundedFloat } from './utilities.js';
+import { addEventListenerAll, roundedFloat } from './utilities.js';
 
 export class CalcController {
 
     constructor() {
 
+        this._audio = new Audio('click.mp3');
+        this._audioOnOff = false;
         this._lastOperatorMemory = '';
         this._arrayOfLastNumber = [];
         this._lastNumber = '';
@@ -33,6 +34,77 @@ export class CalcController {
         });
 
         this.setLastNumberToDisplay();
+        this.pasteFromClipboard();
+
+        document.querySelectorAll('.btn-c').forEach(btn => {
+
+            btn.addEventListener('dblclick', e=>{
+
+                this.toggleAudio();
+
+            })
+
+        })
+
+    }
+
+    toggleAudio() {
+
+        this._audioOnOff = !this._audioOnOff;
+
+    }
+
+    playAudio() {
+
+        if (this._audioOnOff) {
+
+            this._audio.currentTime = 0;
+            this._audio.play();
+
+        }
+
+    }
+
+    pasteFromClipboard() {
+
+        document.addEventListener('paste', e=>{
+
+            let text = e.clipboardData.getData('Text');
+
+            if (!isNaN(text)) {
+                this.displayCalc = parseFloat(text);
+
+                if (this._operation.length == 1) {
+                    this._operation.pop();
+                }
+    
+                if (this._operation.length <= 2) {
+                    this.pushOperation(text);
+                    this.setMemoryDisplay();
+                } else {
+                    this._operation.pop();
+                    this.pushOperation(text);
+                    this.setMemoryDisplay();
+                }
+            }
+
+        })
+
+    }
+
+    copyToClipboard() {
+
+        let input = document.createElement('input');
+
+        input.value = this.displayCalc;
+
+        document.body.appendChild(input);
+
+        input.select();
+
+        document.execCommand("Copy");
+
+        input.remove();
 
     }
 
@@ -52,7 +124,7 @@ export class CalcController {
     
                 } else this.execBtnKeyboard(e.key, true);
     
-            } else this.execBtnKeyboard(e.key);
+            } else this.execBtnKeyboard(e.key, false, e);
 
         })
     }
@@ -505,6 +577,8 @@ export class CalcController {
 
     execBtn(value, bool) {
 
+        this.playAudio();
+
         switch (value) {
 
             case 'c':
@@ -584,7 +658,9 @@ export class CalcController {
 
     }
 
-    execBtnKeyboard(value, bool) {
+    execBtnKeyboard(value, bool, e) {
+
+        this.playAudio();
 
         switch (value) {
 
@@ -637,6 +713,10 @@ export class CalcController {
                     this._initializeCalculator = true;
                 }
                 this.addOperation(parseInt(value));
+                break;
+
+            case 'c':
+                if (e.ctrlKey) this.copyToClipboard();
                 break;
 
         }
