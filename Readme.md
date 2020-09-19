@@ -2,7 +2,7 @@
 
 This calculator is a project powered by pure javascript to be organized and elaborated with javascript concepts.
 
-- You can realize simple mathematical equations
+- You can realize simple mathematical operations
 - Use keyboard events
 - This is math with programming!
 
